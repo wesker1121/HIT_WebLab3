@@ -19,7 +19,7 @@ const router = createRouter({
   ]
 })
 router.beforeEach((to, from, next) => {
-    if(to.path == '/login') {
+    if(  to.path === '/login') {
       next()
     }else{
       const username = sessionStorage.getItem('username')

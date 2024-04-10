@@ -21,7 +21,7 @@ function handleLogin(){
         console.log(err)
     })
 }
-    if(username.value == 'admin' && password.value == '123'){
+    if(username.value === 'admin' && password.value === '123'){
         sessionStorage.setItem("username", username);
         router.replace('/');
     

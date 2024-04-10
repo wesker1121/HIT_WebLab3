@@ -1,6 +1,3 @@
-<script setup>
-</script>
-
 <template>
     <el-table :data="tableData" style="width: 100%">
       <el-table-column fixed prop="sid" label="学号" width="150" />
@@ -59,7 +56,7 @@ const handleDelete = (index) => {
 const tableData = ref([
   {
     sid: '2016-05-02',
-    name: 'alcice',
+    name: 'alice',
     gender:'f',
     age: '20',
     birthday: '1996-05-02',
