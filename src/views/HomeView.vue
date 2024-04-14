@@ -20,8 +20,38 @@ import {ElMessage, ElMessageBox} from 'element-plus'
 import {ref, onMounted} from 'vue'
 import axios from 'axios';
 
+function handleDelete(index) {
+  ElMessageBox.confirm(
+      '将永久删除。是否继续？',
+      '确认删除',
+      {
+        confirmButtonText: '确认删除',
+        cancelButtonText: '取消',
+        type: 'warning',
+      }
+  )
+      .then(() => {
+        let sid = tableData.value[index].sid
+        axios.delete(`http://localhost:9999/hit/student/${sid}`)
+            .then((res) => {
+              findAll();
+              ElMessage({
+                type: 'success',
+                message: '删除成功',
+              })
+            })
+      })
+      .catch(() => {
+        ElMessage({
+          type: 'info',
+          message: '已取消删除',
+        })
+      })
+}
 
-function handleDelete(index){
+/*
+function handleDelete(index) {
+  let sid = tableData.value[index].sid
   ElMessageBox.confirm(
       '是否删除学生信息？',
       'Warning',
@@ -32,7 +62,12 @@ function handleDelete(index){
       }
   )
       .then(() => {
-        console.log(tableData.value[index]);
+        axios.delete(`http://localhost:9999/hit/student/${sid}`)
+            .then((res) => {
+              if (res.data.code === 200) {
+                ElMessage.success(res.data.msg)
+              }
+            })
         ElMessage({
           type: 'success',
           message: `${tableData.value[index].sid}删除成功`,
@@ -46,20 +81,27 @@ function handleDelete(index){
         })
       })
 }
+*/
 
 
-function handleEdit(index){
+function handleEdit(index) {
   ElMessage({
     type: 'info',
     message: `修改 ${tableData.value[index].sid}`,
   })
 }
+
 onMounted(() => {
-  axios.get('http://localhost:9999/hit/student/list')
-      .then((res) =>{
-        tableData.value =  res.data
-      })
+  findAll();
 })
+
+function findAll() {
+  axios.get('http://localhost:9999/hit/student/list')
+      .then((res) => {
+        tableData.value = res.data
+      })
+}
+
 const tableData = ref([])
 </script>
 
