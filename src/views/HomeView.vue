@@ -7,7 +7,7 @@
     <el-table-column prop="birthday" label="生日" width="120"/>
     <el-table-column fixed="right" label="操作" width="120">
       <template #default="scope">
-        <el-button link type="primary" size="small" @click="handleModify(scope.$index)">修改</el-button>
+        <el-button link type="primary" size="small" @click="handleEdit(scope.$index)">修改</el-button>
         <el-button link type="primary" size="small" @click="handleDelete(scope.$index)">删除</el-button>
       </template>
     </el-table-column>
@@ -17,16 +17,11 @@
 
 <script setup>
 import {ElMessage, ElMessageBox} from 'element-plus'
-import {ref} from 'vue'
+import {ref, onMounted} from 'vue'
+import axios from 'axios';
 
-const handleModify = (index) => {
-  ElMessage({
-    type: 'info',
-    message: `修改 ${tableData.value[index].sid}`,
-  })
-}
 
-const handleDelete = (index) => {
+function handleDelete(index){
   ElMessageBox.confirm(
       '是否删除学生信息？',
       'Warning',
@@ -53,49 +48,18 @@ const handleDelete = (index) => {
 }
 
 
-const tableData = ref([
-  {
-    sid: '111',
-    name: 'alice',
-    gender: 'f',
-    age: '20',
-    birthday: '1996-05-02',
-  },
-  {
-    sid: '222',
-    name: 'bb',
-    gender: 'f',
-    age: '20',
-    birthday: '1996-05-02',
-  },
-  {
-    sid: '333',
-    name: 'cc',
-    gender: 'f',
-    age: '20',
-    birthday: '1996-05-02',
-  },
-  {
-    sid: '444',
-    name: 'dd',
-    gender: 'f',
-    age: '20',
-    birthday: '1996-05-02',
-  },
-  {
-    sid: '555',
-    name: 'ee',
-    gender: 'f',
-    age: '20',
-    birthday: '1996-05-02',
-  },
-  {
-    sid: '666',
-    name: 'ff',
-    gender: 'f',
-    age: '20',
-    birthday: '1996-05-02',
-  },
-])
+function handleEdit(index){
+  ElMessage({
+    type: 'info',
+    message: `修改 ${tableData.value[index].sid}`,
+  })
+}
+onMounted(() => {
+  axios.get('http://localhost:9999/hit/student/list')
+      .then((res) =>{
+        tableData.value =  res.data
+      })
+})
+const tableData = ref([])
 </script>
 

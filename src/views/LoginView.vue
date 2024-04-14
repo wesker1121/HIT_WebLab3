@@ -1,41 +1,61 @@
 <script setup>
-import axios from 'axios';
+import axios from 'axios'
 import {ref} from 'vue'
 import {useRouter} from 'vue-router'
 import {createRouter, createWebHistory} from "vue-router";
 import HomeView from '../views/HomeView.vue'
 import LoginView from '../views/LoginView.vue'
 import qs from 'querystring'
+import {ElMessage} from "element-plus";
 
 let username = ref('')
 let password = ref('')
 const router = useRouter();
 
-function handleClick() {/*
-console.log(username.value);
+function handleClick() {
   let data = {
     username: username.value,
     password: password.value
   }
-  axios.post('http://localhost:8080/hit/user/login', qs.stringify(data))
+  axios.post('http://localhost:9999/hit/user/login', qs.stringify(data))
       .then((res) => {
-        console.log(res.data)
-        if (res.data.success) {
-          console.log("success")
-
+        if (res.data.code === 200) {
+          sessionStorage.setItem("username", username.value)
+          router.replace('/')
         } else {
-          console.log("login fail")
+          ElMessage.error(res.data.msg)
         }
       })
-      .catch((err) => {
-        console.log(err)
-      })
-}*/
 
-  if (username.value === 'admin' && password.value === '123') {
-    sessionStorage.setItem("username", username.value);
-    router.replace('/');
-  }
+
+  /*
+  console.log(username.value);
+    let data = {
+      username: username.value,
+      password: password.value
+    }
+    axios.post('http://localhost:8080/hit/user/login', qs.stringify(data))
+        .then((res) => {
+          console.log(res.data)
+          if (res.data.success) {
+            console.log("success")
+
+          } else {
+            console.log("login fail")
+          }
+        })
+        .catch((err) => {
+          console.log(err)
+        })
+  }*/
+
+  /*
+    if (username.value === 'admin' && password.value === '123') {
+      sessionStorage.setItem("username", username.value);
+      router.replace('/');
+  }*/
+
+
 }
 
 </script>
